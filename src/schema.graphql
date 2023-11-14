@@ -7,25 +7,24 @@ type UserType {
   name: String!
 }
 
-type ProductType {
-  id: ID!
-  name: String!
-  price: Float!
-  status: String!
-  images: [String!]
-}
-
 type ImageType {
   id: ID!
   url: String!
   priority: Float!
 }
 
+type Product {
+  id: Float!
+  name: String!
+  price: Float!
+  status: String!
+  images: [String!]!
+}
+
 type Query {
   getGraphqlEndpoint: String!
   getUser: UserType!
-  product: ProductType!
-  products: [ProductType!]!
   image: ImageType!
   images: [ImageType!]!
+  products: [Product!]!
 }

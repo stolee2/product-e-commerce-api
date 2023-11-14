@@ -7,6 +7,9 @@ import { AppResolver } from './app.resolver';
 import { join } from 'path';
 import { ProductResolver } from './resolvers/product.resolver';
 import { ImageResolver } from './resolvers/image.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Product } from './entities/product.entity';
+import { ProductModule } from './modules/product.module';
 
 @Module({
   imports: [
@@ -14,9 +17,20 @@ import { ImageResolver } from './resolvers/image.resolver';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.graphql'),
     }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: '123456',
+      database: 'products-api',
+      entities: [Product],
+      synchronize: true,
+    }),
+    ProductModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AppResolver, ProductResolver, ImageResolver],
+  providers: [AppService, AppResolver, ImageResolver],
 })
 
 export class AppModule { }

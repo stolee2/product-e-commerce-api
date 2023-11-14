@@ -1,18 +1,13 @@
 import { Query, Resolver } from '@nestjs/graphql';
-import { ProductType } from '../graphql-types/ProductType';
+import { Product } from '../entities/product.entity';
+import { ProductService } from '../services/product.service';
 
-@Resolver()
+@Resolver('Product')
 export class ProductResolver {
-    @Query(() => ProductType)
-    product(): ProductType {
-        return { id: '1', name: 'product1', price: 1, status: 'active', images: [] };
-    }
+    constructor(private readonly productService: ProductService) { }
 
-    @Query(() => [ProductType])
-    products(): ProductType[] {
-        return [
-            { id: '1', name: 'product1', price: 1, status: 'active', images: [] },
-            { id: '2', name: 'product2', price: 2, status: 'active', images: [] }
-        ];
+    @Query(() => [Product])
+    async products(): Promise<Product[]> {
+        return this.productService.findAll();
     }
 }

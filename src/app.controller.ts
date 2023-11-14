@@ -16,11 +16,4 @@ export class AppController {
   testEndpoint(): object {
     return this.appService.getTestEndpoint();
   }
-
-
-
-
-
-
-
 }
