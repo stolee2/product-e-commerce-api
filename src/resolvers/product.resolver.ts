@@ -24,4 +24,9 @@ export class ProductResolver {
     async updateProduct(@Args('id') id: number, @Args('input') input: ProductCreateInput): Promise<Product> {
         return this.productService.updateProduct(id, input);
     }
+
+    @Mutation(() => Product)
+    async deleteProduct(@Args('id') id: number): Promise<Product> {
+        return this.productService.deleteProduct(id);
+    }
 }
