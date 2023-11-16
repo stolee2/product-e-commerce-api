@@ -1,3 +1,5 @@
+## NestJS & GraphQL API for products/images
+
 ## Installation
 
 ```bash
