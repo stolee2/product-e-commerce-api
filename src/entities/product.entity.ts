@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, ID } from '@nestjs/graphql';
 
 @ObjectType()
 @Entity()
 export class Product {
-    @Field()
+    @Field(type => ID)
     @PrimaryGeneratedColumn()
     id: number;
 
