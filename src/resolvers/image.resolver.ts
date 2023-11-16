@@ -1,18 +1,38 @@
-import { Query, Resolver } from '@nestjs/graphql';
-import { ImageType } from '../graphql-types/ImageType';
+import { Mutation, Query, Resolver, Args } from '@nestjs/graphql';
+import { ImageService } from '../services/image.service';
+import { Image } from '../entities/image.entity'
+import { CreateImageInput } from '../graphql-types/image/CreateImageInput';
+import { UpdateImageInput } from '../graphql-types/image/UpdateImageInput';
 
-@Resolver()
+@Resolver('Image')
 export class ImageResolver {
-    @Query(() => ImageType)
-    image(): ImageType {
-        return { id: '1', url: 'test', priority: 1000 };
+    constructor(private readonly imageService: ImageService) { }
+
+    // QUERIES
+    @Query(() => [Image])
+    async images(): Promise<Image[]> {
+        return this.imageService.findAll();
     }
 
-    @Query(() => [ImageType])
-    images(): ImageType[] {
-        return [
-            { id: '2', url: 'test', priority: 500 },
-            { id: '3', url: 'test', priority: 1000 }
-        ];
+    @Query(() => Image)
+    async image(@Args('id') id: number): Promise<Image> {
+        return this.imageService.findOneById(id);
+    }
+
+    // MUTATIONS
+    @Mutation(() => Image)
+    async createImage(@Args('input') input: CreateImageInput): Promise<Image> {
+        const newProduct = await this.imageService.createImage(input);
+        return newProduct
+    }
+
+    @Mutation(() => Image)
+    async updateImage(@Args('id') id: number, @Args('input') input: UpdateImageInput): Promise<Image> {
+        return this.imageService.updateImage(id, input);
+    }
+
+    @Mutation(() => Image)
+    async deleteImage(@Args('id') id: number): Promise<Image> {
+        return this.imageService.deleteImage(id);
     }
 }

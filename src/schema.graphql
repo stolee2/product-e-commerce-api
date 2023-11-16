@@ -8,40 +8,57 @@ type UserType {
 }
 
 type Product {
-  id: ID!
+  id: ID
   name: String!
   price: Float!
   status: String!
-  images: [String!]!
+  images: [ID!]!
 }
 
-type ImageType {
-  id: ID!
+type Image {
+  id: ID
   url: String!
   priority: Float!
+}
+
+type ProductResponse {
+  id: ID
+  name: String!
+  price: Float!
+  status: String!
+  imageUrls: [String!]!
 }
 
 type Query {
   getGraphqlEndpoint: String!
   getUser: UserType!
-  products: [Product!]!
-  image: ImageType!
-  images: [ImageType!]!
+  products: [ProductResponse!]!
+  product(id: Float!): ProductResponse!
+  images: [Image!]!
+  image(id: Float!): Image!
 }
 
 type Mutation {
-  createProduct(input: ProductCreateInput!): Product!
-  updateProduct(id: Float!, input: ProductCreateInput!): Product!
-  createImage(input: CreateImageInput!): ImageType!
-  updateImage(id: String!, input: UpdateImageInput!): ImageType!
-  deleteImage(id: String!): ImageType!
+  createProduct(input: CreateProductInput!): Product!
+  updateProduct(id: Float!, input: UpdateProductInput!): Product!
+  deleteProduct(id: Float!): Product!
+  createImage(input: CreateImageInput!): Image!
+  updateImage(id: Float!, input: UpdateImageInput!): Image!
+  deleteImage(id: Float!): Image!
 }
 
-input ProductCreateInput {
+input CreateProductInput {
   name: String!
   price: Float!
   status: String!
-  images: [String!]!
+  images: [ID!]!
+}
+
+input UpdateProductInput {
+  name: String!
+  price: Float!
+  status: String!
+  images: [ID!]!
 }
 
 input CreateImageInput {
@@ -50,6 +67,6 @@ input CreateImageInput {
 }
 
 input UpdateImageInput {
-  url: String
-  priority: Float
+  url: String!
+  priority: Float!
 }

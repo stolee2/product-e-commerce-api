@@ -5,11 +5,11 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AppResolver } from './app.resolver';
 import { join } from 'path';
-import { ProductResolver } from './resolvers/product.resolver';
-import { ImageResolver } from './resolvers/image.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { ProductModule } from './modules/product.module';
+import { ImageModule } from './modules/image.module';
+import { Image } from './entities/image.entity';
 
 @Module({
   imports: [
@@ -24,13 +24,14 @@ import { ProductModule } from './modules/product.module';
       username: 'postgres',
       password: '123456',
       database: 'products-api',
-      entities: [Product],
+      entities: [Product, Image],
       synchronize: true,
     }),
     ProductModule,
+    ImageModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AppResolver, ImageResolver],
+  providers: [AppService, AppResolver],
 })
 
 export class AppModule { }
