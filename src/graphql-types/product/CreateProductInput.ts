@@ -8,7 +8,7 @@ export class CreateProductInput {
     @Field()
     price: number;
 
-    @Field()
+    @Field({ nullable: true })
     status: string;
 
     @Field(() => [ID])

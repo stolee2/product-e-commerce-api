@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Product } from '../entities/product.entity';
 import { CreateProductInput } from '../graphql-types/product/CreateProductInput';
 import { UpdateProductInput } from '../graphql-types/product/UpdateProductInput';
@@ -44,11 +44,15 @@ export class ProductService {
     }
 
     async createProduct(input: CreateProductInput): Promise<Product> {
+        await this.validateProductInput(input)
+
         const product = this.productRepository.create(input);
         return await this.productRepository.save(product);
     }
 
     async updateProduct(id: number, input: UpdateProductInput): Promise<Product> {
+        await this.validateProductInput(input)
+
         // Check if product exist
         const existingProduct = await this.productRepository.findOneBy({ id });
 
@@ -73,5 +77,31 @@ export class ProductService {
 
         await this.productRepository.remove(existingProduct);
         return existingProduct;
+    }
+
+    /** Validation for create/update mutation */
+    async validateProductInput(input: CreateProductInput | UpdateProductInput) {
+        // validation for imageIds
+        if (input.images && input.images.length) {
+            const inputImageIds = input.images;
+            const allImages = await this.imageRepository.findBy({ id: In(inputImageIds) })
+            const dbImagesIds = allImages.map(el => el.id.toString())
+
+            inputImageIds.forEach(imageId => {
+                if (!dbImagesIds.includes(imageId.toString())) {
+                    throw new Error(`Image with ID ${imageId} not found`);
+                }
+            })
+        }
+
+        // Validation for status
+        if (input.status && input.status !== 'active' && input.status !== 'inactive') {
+            throw new Error(`Product status must be 'active' or 'inactive'`);
+        }
+
+        // Validation for negative price
+        if (input.price && input.price < 0) {
+            throw new Error(`Product price must be more or equal to 0`);
+        }
     }
 }

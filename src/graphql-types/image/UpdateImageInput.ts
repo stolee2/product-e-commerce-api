@@ -3,9 +3,9 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateImageInput {
-    @Field()
+    @Field({ nullable: true })
     url: string;
 
-    @Field()
+    @Field({ nullable: true })
     priority: number;
 }

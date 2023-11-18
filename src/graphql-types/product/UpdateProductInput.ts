@@ -2,15 +2,15 @@ import { Field, InputType, ID } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateProductInput {
-    @Field()
-    name: string;
+    @Field({ nullable: true })
+    name?: string;
 
-    @Field()
+    @Field({ nullable: true })
     price: number;
 
-    @Field()
+    @Field({ nullable: true })
     status: string;
 
-    @Field(() => [ID])
+    @Field(() => [ID], { nullable: true })
     images: number[];
 }

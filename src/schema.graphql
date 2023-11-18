@@ -43,15 +43,15 @@ type Mutation {
 input CreateProductInput {
   name: String!
   price: Float!
-  status: String!
+  status: String
   images: [ID!]!
 }
 
 input UpdateProductInput {
-  name: String!
-  price: Float!
-  status: String!
-  images: [ID!]!
+  name: String
+  price: Float
+  status: String
+  images: [ID!]
 }
 
 input CreateImageInput {
@@ -60,6 +60,6 @@ input CreateImageInput {
 }
 
 input UpdateImageInput {
-  url: String!
-  priority: Float!
+  url: String
+  priority: Float
 }
