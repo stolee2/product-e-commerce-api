@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Image } from '../entities/image.entity';
-import { CreateImageInput } from '../graphql-types/image/CreateImageInput';
-import { UpdateImageInput } from 'src/graphql-types/image/UpdateImageInput';
+import { CreateImageInput } from '../models/image/CreateImageInput';
+import { UpdateImageInput } from '../models/image/UpdateImageInput';
 
 
 @Injectable()

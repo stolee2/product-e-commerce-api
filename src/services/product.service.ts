@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { Product } from '../entities/product.entity';
-import { CreateProductInput } from '../graphql-types/product/CreateProductInput';
-import { UpdateProductInput } from '../graphql-types/product/UpdateProductInput';
+import { CreateProductInput } from '../models/product/CreateProductInput';
+import { UpdateProductInput } from '../models/product/UpdateProductInput';
 import { Image } from '../entities/image.entity';
-import { ProductResponse } from '../graphql-types/product/ProductResponse';
+import { ProductResponse } from '../models/product/ProductResponse';
 
 @Injectable()
 export class ProductService {
